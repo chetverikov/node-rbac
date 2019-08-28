@@ -1,0 +1,26 @@
+{
+  "name": "node-rbac",
+  "version": "1.0.0",
+  "description": "Hierarchical role based account control implementation for node (with filters)",
+  "main": "./lib",
+  "scripts": {
+    "test": "node_modules/.bin/ava tests/*.test.js"
+  },
+  "repository": "https://github.com/chetverikov/node-rbac",
+  "keywords": [
+    "abac",
+    "rbac",
+    "hrbac",
+    "access control",
+    "authentication",
+    "Hierarchical Role Based Access Control",
+    "acl"
+  ],
+  "author": {
+    "name": "Maksim Chetverikov <ma.chetverikov@gmail.com>"
+  },
+  "license": "BSD",
+  "devDependencies": {
+    "ava": "^2.3.0"
+  }
+}
