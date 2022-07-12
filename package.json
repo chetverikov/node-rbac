@@ -1,6 +1,6 @@
 {
   "name": "node-rbac",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Hierarchical role based account control implementation for node (with filters)",
   "main": "./lib",
   "scripts": {
@@ -21,6 +21,6 @@
   },
   "license": "BSD",
   "devDependencies": {
-    "ava": "^2.3.0"
+    "ava": "^4.3.1"
   }
 }

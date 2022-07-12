@@ -14,7 +14,16 @@ Install it using following command:
     {
         name: String,        // required. Name of rule
         children: [String],  // optional. List of rules 
+        deny: Boolean        // optional. Return false for this rule when it set as true
         filter: () => {}     // optional. Test functions which returns true/false
+    }
+```
+
+## Settings
+
+```js
+    {
+        strategy: String  // optional. Strategy can be ALL_ALLOWED, ANY_ALLOWED, ALL_DENIED, ANY_DENIED @see RBAC.STRATEGIES
     }
 ```
 
@@ -74,7 +83,7 @@ const rbac = new RBAC([
   {
     name: 'comments delete'
   }
-]);
+], { strategy: RBAC.STRATEGIES.ANY_ALLOWED });
 
 // Create instance of RBAC for selected roles
 const userRbac = rbac.getInstance(['User']);

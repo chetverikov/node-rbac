@@ -120,3 +120,89 @@ test('should allow when rule return false in one of roles but another return tru
   t.true(instance.can('company update', {city:[5], region:[5], company: 5}));
   t.false(instance.can('company update', {city:[1], region:[2], company: 5}));
 });
+
+test('should return false when a rule is denied and a ANY_DENIED strategy was passed', t => {
+  const rbac = new RBAC([
+    {
+      name: 'Companies city updater',
+      children: ['company city update']
+    },
+    {
+      name: 'company city update',
+      deny: true,
+      children: ['company update']
+    },
+    {
+      name: 'company update'
+    }
+  ], { strategy: RBAC.STRATEGIES.ANY_DENIED });
+  const instance = rbac.getInstance(['Companies city updater']);
+
+  t.false(instance.can('company update'));
+});
+
+test('should return true when a rule is denied and a ALL_DENIED strategy was passed', t => {
+  const rules = [
+    {
+      name: 'company update'
+    },
+
+    // company city updater
+    {
+      name: 'Companies city updater',
+      children: ['company city update']
+    },
+    {
+      name: 'company city update',
+      deny: true,
+      children: ['company update']
+    },
+
+    // company region updater
+    {
+      name: 'Companies region updater',
+      children: ['company region update']
+    },
+    {
+      name: 'company region update',
+      children: ['company update']
+    }
+  ]
+  const rbac = new RBAC(rules, { strategy: RBAC.STRATEGIES.ALL_DENIED });
+  const instance = rbac.getInstance(['Companies city updater', 'Companies region updater']);
+
+  t.true(instance.can('company update'));
+});
+
+test('should return false when some rule is denied and a ALL_ALLOWED strategy was passed', t => {
+  const rules = [
+    {
+      name: 'company update'
+    },
+
+    // company city updater
+    {
+      name: 'Companies city updater',
+      children: ['company city update']
+    },
+    {
+      name: 'company city update',
+      deny: true,
+      children: ['company update']
+    },
+
+    // company region updater
+    {
+      name: 'Companies region updater',
+      children: ['company region update']
+    },
+    {
+      name: 'company region update',
+      children: ['company update']
+    }
+  ]
+  const rbac = new RBAC(rules, { strategy: RBAC.STRATEGIES.ALL_ALLOWED });
+  const instance = rbac.getInstance(['Companies city updater', 'Companies region updater']);
+
+  t.false(instance.can('company update'));
+});
